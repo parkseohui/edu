@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+
+<mapper namespace="org.apartment.mapper.MemberMapper">
+	<!-- <insert id="insertApt" parameterType="org.aptogether.domain.MemberVO"> 
+		insert into APT_INFO values(APT_INFO_SEQ.nextval, #{kaptCode}, #{aptName}, 
+		#{location}, #{x}, #{y}) </insert> -->
+
+	<select id="memberCount" parameterType="String" resultType="int">
+		select nvl(count(*), 0) from member where id = #{id}
+	</select>
+
+	<select id="keeperCount" parameterType="String" resultType="int">
+		select nvl(count(*), 0) from keeper where id = #{id}
+	</select>
+
+	<insert id="joinTenant"
+		parameterType="org.apartment.domain.JoinTenantVO">
+		insert into member values(member_seq.nextval, #{id}, #{password}, 0,
+		#{type}, #{name}, (select household_seq from household where dong = #{dong} and ho
+			= #{ho} and apt_seq = #{aptSeq}) )
+	</insert>
+
+	<insert id="joinKeeper"
+		parameterType="org.apartment.domain.JoinKeeperVO">
+		insert into keeper values(keeper_seq.nextval, #{id},
+		#{password},#{aptSeq}, #{name},#{type})
+	</insert>
+
+	<select id="memberInfo" parameterType="String"
+		resultType="org.apartment.domain.TenantVO">
+		select * from member inner join household on
+		household.household_seq = member.household_seq where id = #{id}
+	</select>
+
+	<select id="keeperInfo" parameterType="String"
+		resultType="org.apartment.domain.KeeperVO">
+		select * from keeper where id = #{id}
+	</select>
+
+	<select id="showNotAdmitUser" parameterType="int" resultType="org.apartment.domain.TenantVO">
+		select m.member_seq member_seq, m.id id, m.password password, m.admit admit, m.type type, m.name name, m.household_seq household_seq, h.dong dong, h.ho ho,apt_seq apt_seq from member m left join household h on h.household_seq = m.household_seq where m.type not LIKE 'ROLE_TENANT' and h.apt_seq = #{aptSeq}
+	</select>
+	
+	<update id="admitTenant" parameterType="int" flushCache="true">
+		update member set type = 'ROLE_TENANT' where member_seq = #{seq}
+	</update>
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

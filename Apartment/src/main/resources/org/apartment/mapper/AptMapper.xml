@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+
+<mapper namespace="org.apartment.mapper.AptMapper">
+	<cache />
+	<insert id="insertApt" parameterType="org.apartment.domain.AptVO">
+		insert into APT_INFO
+			values(APT_INFO_SEQ.nextval, #{kaptCode}, #{aptName}, #{location}, #{x}, #{y})
+	</insert>
+	
+	<select id="aptCount" parameterType="org.apartment.domain.AptVO" resultType="int">
+		select nvl(count(*), 0) from apt_info where kapt_Code = #{kaptCode} 
+	</select>
+	
+	<select id="searchWithKeyword" parameterType="String" resultType="org.apartment.domain.AptVO">
+		select * from apt_info where apt_name like #{keyword}
+	</select>
+	
+	<select id="getHousehold" parameterType="org.apartment.domain.JoinTenantVO" resultType="org.apartment.domain.HouseholdVO">
+		Select * from household where dong = #{dong} and ho = #{ho} and apt_seq = #{aptSeq} 
+	</select>
+	
+	<insert id="createHousehold" parameterType="org.apartment.domain.JoinTenantVO">
+		insert into household(household_seq, dong, ho, apt_seq, room_size) values(household_seq.nextval, #{dong}, #{ho}, #{aptSeq}, 0)
+	</insert>
+<!-- 	<select id="showApt" parameterType="String" resultType="AptInfo">
+		select * from APT_INFO where aptname like #{keyword}
+	</select>
+	
+	<select id="aptInfo" parameterType="Integer" resultType="AptInfo">
+		select * from APT_INFO where apt_seq = #{seq}
+	</select> -->
+
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

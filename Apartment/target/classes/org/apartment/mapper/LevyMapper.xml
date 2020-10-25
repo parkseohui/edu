@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mtbatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.apartment.mapper.LevyMapper">
+	
+	<insert id="addLevy">
+		<selectKey keyProperty="levySeq" order="BEFORE" resultType="int">
+ 			select levy_seq.nextval from dual
+ 		</selectKey>
+		insert into Levy values (#{levySeq}, #{aptSeq} , to_date(#{levyDate}, 'YYYY-MM'), to_date(#{startCalDate}, 'YYYY.MM.DD'),
+												to_date(#{endCalDate}, 'YYYY.MM.DD'), to_date(#{deadlineDate}, 'YYYY.MM.DD'), 0)
+	</insert>
+	
+ 	<select id="listLevy" resultType="org.apartment.domain.LevyVO">
+		select * from levy
+		where apt_seq = #{aptSeq}
+        order by levy_date desc
+	</select>
+	
+	
+	<select id="findUnitPriceSeq" resultType="org.apartment.domain.UnitPriceVO">
+		select unit_price_seq from unit_price u, levy l
+		where u.levy_seq = l.levy_seq
+		and l.levy_date = #{levyDate}
+	</select>
+	
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

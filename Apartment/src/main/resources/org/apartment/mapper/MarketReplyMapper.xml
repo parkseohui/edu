@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- (reply_no,reply_writer,reply_contents) -->
+<mapper namespace="org.apartment.mapper.MarketReplyMapper">
+	<insert id="marketReplyInsert">
+	insert into MarketReply(reply_no,reply_writer,reply_contents,reply_regdate,seq) values(market_reply_seq.nextval,#{replyWriter},#{replyContents},sysdate,#{seq})
+	</insert>
+	
+	<select id="marketReplyRead" resultType="org.apartment.domain.MarketReplyVO">
+	select * from MarketReply where reply_no=#{replyNo}
+	</select>
+	
+	<delete id="marketReplyDelete">
+	delete from MarketReply where reply_no=#{replyNo}
+	</delete>
+	
+	<update id="marketReplyUpdate">
+	update marketReply set reply_contents=#{replyContents}, reply_updatedate=sysdate where reply_no=#{replyNo}
+	</update>
+	
+	<select id="getListWithPaging" resultType="org.apartment.domain.MarketReplyVO">
+	select * from marketReply where seq=#{seq} order by seq asc
+	</select>
+	
+	<cache />
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

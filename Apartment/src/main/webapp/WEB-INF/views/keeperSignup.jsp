@@ -13,7 +13,7 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
 
-    <title>Aptogether - 관리사무소 가입 페이지</title>
+    <title>Apartment - 관리사무소 가입 페이지</title>
 
     <!-- Custom fonts for this template-->
     <link
@@ -102,7 +102,7 @@
             <div class="col-lg-7">
               <div class="p-5">
                 <div class="text-center">
-                  <h1 class="h4 text-gray-900 mb-4">Aptogether - 관리 사무실 회원가입</h1>
+                  <h1 class="h4 text-gray-900 mb-4">Apartment - 관리 사무실 회원가입</h1>
                 </div>
                 <form:form class="user" action="/keeper/signup" modelAttribute="JoinKeeperVO" method="post">
                   <div class="form-group row">

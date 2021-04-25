@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.apartment.mapper.ScheduleMapper">
+
+	<select id="listSchedule" resultType="org.apartment.domain.ScheduleVO">
+		select * from schedule where apt_seq = #{aptSeq} and authority= #{authority}
+	</select>
+	
+<!-- 	<select id="listSchedule" resultType="org.apartment.domain.ScheduleVO"> -->
+<!-- 		select * from schedule where apt_seq = #{aptSeq} -->
+<!-- 	</select> -->
+
+	<insert id="insertSchedule" parameterType="org.apartment.domain.ScheduleVO">
+		insert into schedule
+		values(schedule_Seq.nextval, #{contents}, to_date(#{startDate}, 'YYYY-MM-DD HH24:MI'),
+		to_date(#{endDate}, 'YYYY-MM-DD HH24:MI'), #{aptSeq}, #{title},
+		#{backgroundColor}, #{dong}, #{authority}, #{states})
+	</insert>
+
+	<delete id="deleteSchedule" parameterType="org.apartment.domain.ScheduleVO">
+		delete from schedule where schedule_Seq=#{scheduleSeq}
+	</delete>
+
+	<update id="updateSchedule" parameterType="org.apartment.domain.ScheduleVO">
+		update schedule set contents= #{contents}, title=#{title}, start_Date=
+		to_date(#{startDate}, 'YYYY-MM-DD HH24:MI'),
+		end_Date= to_date(#{endDate}, 'YYYY-MM-DD HH24:MI'),
+		background_Color=#{backgroundColor}, 
+		dong=#{dong},
+		authority=#{authority},
+		states=#{states}
+		where schedule_Seq=#{scheduleSeq}
+	</update>
+	
+	<update id="admitSchedule" parameterType="int">
+			update schedule set authority = 1 where schedule_Seq = #{scheduleSeq}
+	</update>
+	
+
+</mapper>

@@ -11,7 +11,7 @@
 		<div class="sidebar-brand-icon rotate-n-15">
 			<i class="fas fa-laugh-wink"></i>
 		</div>
-		<div class="sidebar-brand-text mx-3">Aptogether</div>
+		<div class="sidebar-brand-text mx-3">Apartment</div>
 	</a>
 
 	<!-- Divider -->
@@ -19,7 +19,7 @@
 
 	<!-- Nav Item - Dashboard -->
 	<li class="nav-item active"><a class="nav-link"
-		href="/Aptogether/member/userLogin.do"> <i
+		href="/tenant/main"> <i
 			class="fas fa-fw fa-tachometer-alt"></i> <span>메인</span></a></li>
 
 	<!-- Divider -->
@@ -43,10 +43,10 @@
 			</div>
 		</div></li>
 	<li class="nav-item"><a class="nav-link"
-		href="/Aptogether/schedule/scheduleAction.do"> <i
+		href="/tenant/scheduleTenant"> <i
 			class="fas fa-fw fa-chart-area"></i> <span>아파트 일정 보기</span></a></li>
 	<li class="nav-item"><a class="nav-link"
-		href="/Aptogether/poll/PollListviewAction.do"> <i
+		href="/tenant/pollTenantList"> <i
 			class="fas fa-fw fa-chart-area"></i> <span>투표하기</span></a></li> 
 	<!-- Nav Item - Utilities Collapse Menu -->
 	<!-- 	<li class="nav-item"><a class="nav-link collapsed" href="#"
@@ -94,13 +94,13 @@
 
 	<!-- Nav Item - Charts -->
 	<li class="nav-item"><a class="nav-link"
-		href="/Aptogether/map/mapform.do"> <i
+		href="/tenant/map"> <i
 			class="fas fa-fw fa-chart-area"></i> <span>아파트 지도보기</span>
 	</a></li>
 
 	<!-- Nav Item - Tables -->
 	<li class="nav-item"><a class="nav-link"
-		href="/Aptogether/Market/listaction.do"> <i
+		href="/tenant/market/list"> <i
 			class="fas fa-fw fa-table"></i> <span>아파트 중고장터</span>
 	</a></li>
 

@@ -13,7 +13,7 @@
 		<div class="sidebar-brand-icon rotate-n-15">
 			<i class="fas fa-laugh-wink"></i>
 		</div>
-		<div class="sidebar-brand-text mx-3">Aptogether</div>
+		<div class="sidebar-brand-text mx-3">Apartment</div>
 	</a>
 
 	<!-- Divider -->
@@ -21,7 +21,7 @@
 
 	<!-- Nav Item - Dashboard -->
 	<li class="nav-item active"><a class="nav-link"
-		href="/Aptogether/member/signinAdmin.do"> <i
+		href="/keeper/dashboard"> <i
 			class="fas fa-fw fa-tachometer-alt"></i> <span>메인화면</span>
 	</a></li>
 

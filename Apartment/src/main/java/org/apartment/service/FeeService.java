@@ -2,35 +2,30 @@ package org.apartment.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.apartment.domain.FeeRegisterVO;
 import org.apartment.domain.FeeVO;
 import org.apartment.domain.HouseholdVO;
+import org.apartment.domain.LevyVO;
 import org.apartment.domain.MeterVO;
+import org.apartment.domain.TenantFeeInfoVO;
 import org.apartment.domain.TenantVO;
 import org.apartment.domain.UnitPriceVO;
 
 public interface FeeService {
 	
-	public List<HouseholdVO> listDong(HouseholdVO dong);
+public List<HouseholdVO> listDong(int aptSeq);
 	
-	public List<FeeRegisterVO> listFeeReg(int dong);
+	public List<FeeRegisterVO> listFeeReg(@Param("levySeq") int levySeq, @Param("dong") int dong);
 	
-	public UnitPriceVO getUnitPrice(int unitPriceSeq); 
+	public List<HouseholdVO> householdInfo(int aptSeq);
 	
-	public int updateUnitPrice(UnitPriceVO unitPrice);
+	public LevyVO levyInfo(@Param("aptSeq") int aptSeq, @Param("levyDate") String levyDate);
 	
-	public int addMeter(MeterVO meter);
+	public int addFee(FeeVO fee);
 	
-	public int updateMeter(MeterVO meter);
+	public int updateFee(FeeVO fee);
 	
-	
-	//public TenantVO findMember(TenantVO user);
-
-	
-	public int insertFee(FeeVO fee);
-	
-	public List<FeeVO> listFee(TenantVO user);
-	
-	public List<FeeVO>	listFeeRowNum(TenantVO user);
+	public List<TenantFeeInfoVO> tenantFeeInfo(@Param("memberSeq") int memberSeq, @Param("rownum") int rownum);
 
 }

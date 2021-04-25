@@ -2,10 +2,13 @@ package org.apartment.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.apartment.domain.FeeRegisterVO;
 import org.apartment.domain.FeeVO;
 import org.apartment.domain.HouseholdVO;
+import org.apartment.domain.LevyVO;
 import org.apartment.domain.MeterVO;
+import org.apartment.domain.TenantFeeInfoVO;
 import org.apartment.domain.TenantVO;
 import org.apartment.domain.UnitPriceVO;
 import org.apartment.mapper.FeeMapper;
@@ -22,78 +25,60 @@ public class FeeServiceImpl implements FeeService {
 	private FeeMapper mapper;
 	
 	@Override
-	public List<HouseholdVO> listDong(HouseholdVO dong) {
+	public List<HouseholdVO> listDong(int aptSeq) {
 		
-		log.info("listdong....." + dong);
+		log.info("listdong....." + aptSeq);
 		
-		return mapper.listDong(dong);
+		return mapper.listDong(aptSeq);
 	}
 	
 	@Override
-	public List<FeeRegisterVO>  listFeeReg(int dong) {
+	public List<FeeRegisterVO>  listFeeReg(@Param("levySeq") int levySeq, @Param("dong") int dong) {
 		
-		log.info("dong : "+ dong);
+		log.info("levySeq : " + levySeq + "dong : "+ dong);
 		
-		return mapper.listFeeReg(dong);
+		return mapper.listFeeReg(levySeq, dong);
 	}
 	
 	@Override
-	public UnitPriceVO getUnitPrice(int unitPriceSeq){
+	public LevyVO levyInfo(@Param("aptSeq") int aptSeq, @Param("levyDate") String levyDate) {
 		
-		log.info("unitPriceSeq" + unitPriceSeq);
 		
-		return mapper.getUnitPrice(unitPriceSeq);
-	}
-	
-	@Override
-	public int updateUnitPrice(UnitPriceVO unitPrice) {
-		
-		log.info("updateUnitPrice" + unitPrice);
-		
-		return mapper.updateUnitPrice(unitPrice);
+		return mapper.levyInfo(aptSeq, levyDate);
 	}
 	
 	
-	@Override
-	public int addMeter(MeterVO meter) {
-		
-		log.info(meter);
-		
-		return mapper.addMeter(meter);
-	}
 	
 	
 	@Override
-	public int updateMeter(MeterVO meter) {
+	public List<HouseholdVO> householdInfo(int aptSeq) {
 		
-		log.info(meter);
+		return mapper.householdInfo(aptSeq);
+	}	
+	
+
+	@Override
+	public int addFee(FeeVO fee) {
 		
-		return mapper.updateMeter(meter);
+		return mapper.addFee(fee);
 	}
 	
 
 	@Override
-	public int insertFee(FeeVO fee) {
+	public int updateFee(FeeVO fee) {
 		
-		log.info("insertFee....." + fee);
 		
-		return mapper.insertFee(fee);
+		return mapper.updateFee(fee);
 	}
+	
+	
 
 	@Override
-	public List<FeeVO> listFee(TenantVO user) {
+	public List<TenantFeeInfoVO> tenantFeeInfo(@Param("memberSeq") int memberSeq, @Param("rownum") int rownum) {
 		
-		log.info("listFee.....");
+		log.info("memberSeq  : " + memberSeq + ", rownum : " + rownum);
 		
-		return mapper.listFee(user);
-	}
-
-	@Override
-	public List<FeeVO> listFeeRowNum(TenantVO user) {
-		
-		log.info("list fee up to 6 order by paydate desc");
-		
-		return mapper.listFeeRowNum(user);
+		return mapper.tenantFeeInfo(memberSeq, rownum);
 	}
 
 }

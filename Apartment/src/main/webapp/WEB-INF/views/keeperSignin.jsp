@@ -11,7 +11,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Aptogether - 관리사무소 Login</title>
+  <title>Apartment - 관리사무소 Login</title>
 
   <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -37,7 +37,7 @@
               <div class="col-lg-6">
                 <div class="p-5">
                   <div class="text-center">
-                    <h1 class="h4 text-gray-900 mb-4">Aptogether - 관리사무실 로그인</h1>
+                    <h1 class="h4 text-gray-900 mb-4">Apartment - 관리사무실 로그인</h1>
                   </div>
                   <form class="user" action="/keeper/signin" method="post">
                     <div class="form-group">

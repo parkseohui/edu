@@ -1,10 +1,8 @@
 package org.apartment.controller;
-
 import java.util.List;
 
 import org.apartment.domain.CustomKeeper;
 import org.apartment.domain.LevyVO;
-import org.apartment.domain.UnitPriceVO;
 import org.apartment.service.LevyService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -59,11 +57,5 @@ public class LevyRestController {
 		return new ResponseEntity<>(service.listLevy(levy), HttpStatus.OK);
 		}
 	
-	@GetMapping(value = "/findUnitPriceSeq/{levyDate}",
-			produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE } )
-	public ResponseEntity<UnitPriceVO> findUnitPriceSeq(@PathVariable("levyDate") String levyDate ){
-		
-		return new ResponseEntity<>(service.findUnitPriceSeq(levyDate), HttpStatus.OK);
-	}
 	
 }

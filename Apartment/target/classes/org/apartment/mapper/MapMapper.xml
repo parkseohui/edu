@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+
+<mapper namespace="org.apartment.mapper.MapMapper">
+<select id="getXY" parameterType="int" resultType="org.apartment.domain.AptVO">
+		select * from apt_info where apt_seq=#{apt_seq}
+	</select>
+</mapper>

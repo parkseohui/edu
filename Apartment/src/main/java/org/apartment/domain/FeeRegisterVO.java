@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 public class FeeRegisterVO {
 
+	private int levySeq;
 	private int householdSeq;
 	private int aptSeq;
 	private int dong;

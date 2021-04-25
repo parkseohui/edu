@@ -1,6 +1,11 @@
+<%@page import="org.springframework.security.core.Authentication"%>
+<%@page import="org.apartment.domain.CustomKeeper"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<sec:authentication var="principal" property="principal" />
+
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -53,26 +58,20 @@
 				<div class="container-fluid">
 
 					<!-- Page Heading -->
-					<div
-						class="d-sm-flex align-items-center justify-content-between mb-4">
-						<h1 class="h3 mb-0 text-gray-800">[APTOGETHER 관리비 부과]</h1>
+					<div class="d-sm-flex align-items-center justify-content-between mb-4">
+						<fmt:parseDate var="date" value="${levyD}" pattern="yyyy-MM-dd" />
+						<h1 class="h3 mb-0 text-gray-800"><strong style="color: royalblue;"><fmt:formatDate value="${date}" pattern="yyyy년 MM월 관리비 부과" /></strong></h1>
+					
 					</div>
 					
 
 					<!-- Content Row -->
 					<div class="row">
 						<div class="container-fluid">
-						<select class="custom-select" id="selectDong"></select>
-						<strong><c:out value="${levyD}"/></strong>
-						<p id="unitPriceSeq"></p>
-						<div id="householdlist" hidden="hidden"></div>
-						<button id="unitPrice" class="d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm">
-										단가조정</button>
 							<div class="card mb-4">
 								<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
 									<h6 class="m-0 font-weight-bold text-primary">관리비 부과기초작업</h6>
-									<button id="addLevy" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-										추가</button>
+									<select class="custom-select" id="selectDong"></select>
 								
 								</div>
 								
@@ -80,13 +79,14 @@
 									<table class="table table-bordered table-hover">
 									  <thead class="table-primary">
 									    <tr>
-									      <th scope="col" colspan="3">세대정보</th>
+									      <th scope="col" colspan="2">세대정보</th>
 									      <th scope="col" colspan="7">요금항목</th>
+									      <th scope="col" rowspan="2">부과작업</th>
 									    </tr>
 									    <tr>
 									    <th scope="col">동</th>
 									    <th scope="col">호</th>
-									    <th scope="col">공급면적</th>
+									   <!--  <th scope="col">공급면적</th> -->
 									    <th scope="col">일반관리비</th>
 									    <th scope="col">경비비</th>
 									    <th scope="col">청소비</th>
@@ -104,112 +104,34 @@
 							</div>
 						</div>
 					</div>
-					
-					<!-- 관리비 단가 조정 모달창 -->
-					<div class="modal fade" id="calModal" tabindex="-1" role="dialog" aria-labelledby="calModalLabel" aria-hidden="true">
-					  <div class="modal-dialog">
-					    <div id="calJob1" class="modal-content">
-					      <div class="modal-header">
-					        <h5 class="modal-title" id="calModalLabel">관리비 단가조정</h5>
-					        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					          <span aria-hidden="true">&times;</span>
-					        </button>
-					      </div>
-					      <div class="modal-body">
-							<form>
-								<div class="form-group row">
-									<label for="generalPrice" class="col-sm-2 col-form-label">일반관리비</label>
-									<div class="col-sm-10">
-										<input type="text" class="form-control unitP" id="generalPrice">
-									</div>
-								</div>
-								<div class="form-group row">
-									<label for="securityPrice" class="col-sm-2 col-form-label">경비비</label>
-									<div class="col-sm-10">
-										<input type="text" class="form-control unitP" id="securityPrice">
-									</div>
-								</div>
-								<div class="form-group row">
-									<label for="cleaningPrice" class="col-sm-2 col-form-label">청소비</label>
-									<div class="col-sm-10">
-										<input type="text" class="form-control unitP" id="cleaningPrice">
-									</div>
-								</div>
-								<div class="form-group row">
-									<label for="fumigationPrice" class="col-sm-2 col-form-label">소독비</label>
-									<div class="col-sm-10">
-										<input type="text" class="form-control unitP" id="fumigationPrice">
-									</div>
-								</div>
-								<div class="form-group row">
-									<label for="elevatorPrice"
-										class="col-sm-2 col-form-label">승강기유지비</label>
-									<div class="col-sm-10">
-										<input type="text" class="form-control unitP" id="elevatorPrice">
-									</div>
-								</div>
-								<div class="form-group row">
-									<label for="electricityPrice" class="col-sm-2 col-form-label">전기세</label>
-									<div class="col-sm-10">
-										<input type="text" class="form-control unitP" id="electricityPrice">
-									</div>
-								</div>
-								<div class="form-group row">
-									<label for="waterPrice" class="col-sm-2 col-form-label">수도세</label>
-									<div class="col-sm-10">
-										<input type="text" class="form-control unitP" id="waterPrice">
-									</div>
-								</div>
-							</form> 
-					      </div>
-					      <div  class="modal-footer">
-					      	<button type="button" id="ModJob" class="btn btn-danger">저장</button>
-					      	<button type="button" id="unitPriceMod" class="btn btn-success">단가 수정</button>
-					        <button type="button" id="unitPriceReg" class="btn btn-primary">다음</button>
-					        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-					      </div>
-					    </div>
-					  </div>
-					</div>
-					
-					
-					<!-- 개별사용관리비 검침 모달창 -->
-					<div class="modal fade" id="meterModal" tabindex="-1" role="dialog" aria-labelledby="meterModalLabel" aria-hidden="true">
-					  <div class="modal-dialog">
-					    <div id="calJob2" class="modal-content">
-					      <div class="modal-header">
-					        <h5 class="modal-title" id="meterModalLabel">개별사용료 검침</h5>
-					        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					          <span aria-hidden="true">&times;</span>
-					        </button>
-					      </div>
-					      <div class="modal-body">
-							<table class="table">
-								  <thead>
-								    <tr>
-								      <th scope="col">호</th>
-								      <th scope="col">전기 사용량</th>
-								      <th scope="col">수도 사용량</th>
-								    </tr>
-								  </thead>
-								  <tbody id="meterTable">
-								  </tbody>
-							</table> 
-					      </div>
-					      <div  class="modal-footer">
-					      	<button type="button" id="previousModal" class="btn btn-primary">이전</button>
-					      	<button type="button" id="meterReadJob" class="btn btn-danger" hidden="hidden">저장</button>
-					      	<button type="button" id="meterMod" class="btn btn-success">수정</button>
-					        <button type="button" id="meterReg" class="btn btn-primary">요금계산</button>
-					        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-					      </div>
-					    </div>
-					  </div>
-					</div>					
+									
 					
 
 				</div>
 				<!-- /.container-fluid -->
+				
+				<!-- 업데이트 확인모달 -->
+				<div class="modal fade" id="UpdateCheck" tabindex="-1" role="dialog" aria-hidden="true">
+				  <div class="modal-dialog modal-dialog-centered" role="document">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <h5 class="modal-title">관리비 부과 업데이트</h5>
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				          <span aria-hidden="true">&times;</span>
+				        </button>
+				      </div>
+				      <div class="modal-body" id="feeUpdateContent">
+				        
+				      </div>
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-primary" id="save">확인</button>
+				        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+				      </div>
+				    </div>
+				  </div>
+				</div>
+				<!-- 업데이트 확인모달 끝-->
+				
 					<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
@@ -225,7 +147,7 @@
 				<div class="modal-footer">
 					<button class="btn btn-secondary" type="button"
 						data-dismiss="modal">Cancel</button>
-					<a class="btn btn-primary" href="/Aptogether/member/logout.do">Logout</a>
+					<a class="btn btn-primary" href="/apartment/member/logout.do">Logout</a>
 				</div>
 			</div>
 		</div>
@@ -276,246 +198,195 @@
 			    return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g,",");
 			}
 			
-			
-			feeService.findUnitPriceSeq("<c:out value="${levyD}"/>", function(data) {
-				var unitPriceSeq = data.unitPriceSeq;
-				$("#unitPriceSeq").html(unitPriceSeq).attr("hidden", true);
-				console.log("단가번호 : " +  unitPriceSeq);
-			});
-		
-			
 			feeService.listDong(function(list) {
-					
+					console.log(list);
 					for(var i = 0, len = list.length||0; i <len; i++){
 						$("#selectDong").append('<option value="'+list[i].dong+'">'+list[i].dong+' 동'+'</option>');
 					} 
+				 feeService.levyInfo({levyDate : "<c:out value="${levyD}"/>", aptSeq : ${principal.aptSeq} }, function(levinfo) {
+					console.log(levinfo);
+				
 					
-					$.getJSON("/keeper/listFeeReg/"+ list[0].dong + ".json",
+					$.getJSON("/keeper/listFeeReg/"+ levinfo.levySeq +"/"+list[0].dong + ".json",
 						function(data) {
 						console.log(data);
 							$("#feeTable").append('<tr>' +'<td class="dongtd" style="vertical-align: middle;">'+  $("#selectDong option:selected").val() + '</td>' + '</tr>');
 						 		for(var i = 0, len = data.length||0; i <len; i++){
  										$("#feeTable").append('<tr>'
 											   									+'<td>'+ data[i].feeList[0].ho+ '</td>'
-											   									+'<td>'+ data[i].feeList[0].roomSize+ 'm²'+ '</td>'
- 																			   	+'<td>'+ Commas(data[i].feeList[0].generalBill) + '</td>'
-																			   	+'<td>'+ Commas(data[i].feeList[0].securityBill)+ '</td>'
-																			   	+'<td>'+ Commas(data[i].feeList[0].cleaningBill)+ '</td>'
-																			   	+'<td>'+ Commas(data[i].feeList[0].fumigationBill)+ '</td>'
-																			   	+'<td>'+ Commas(data[i].feeList[0].elevatorBill)+ '</td>'
-																			   	+'<td>'+ Commas(data[i].feeList[0].electricityBill)+ '</td>'
-																			   	+'<td>'+ Commas(data[i].feeList[0].waterBill)+ '</td>' 
+ 																			   	+'<td>'+ '<input type="text" class="form-control fee'+data[i].householdSeq+'" value="'+Commas(data[i].feeList[0].generalBill)+'"readonly>'+ '</td>'
+ 																			   	+'<td>'+ '<input type="text" class="form-control fee'+data[i].householdSeq+'" value="'+Commas(data[i].feeList[0].securityBill)+'"readonly>'+ '</td>'
+ 																			   	+'<td>'+ '<input type="text" class="form-control fee'+data[i].householdSeq+'" value="'+Commas(data[i].feeList[0].fumigationBill)+'"readonly>'+ '</td>'
+ 																			   	+'<td>'+ '<input type="text" class="form-control fee'+data[i].householdSeq+'" value="'+Commas(data[i].feeList[0].elevatorBill)+'"readonly>'+ '</td>'
+ 																			   	+'<td>'+ '<input type="text" class="form-control fee'+data[i].householdSeq+'" value="'+Commas(data[i].feeList[0].electricityBill)+'"readonly>'+ '</td>'
+ 																			   	+'<td>'+ '<input type="text" class="form-control fee'+data[i].householdSeq+'" value="'+Commas(data[i].feeList[0].waterBill)+'"readonly>'+ '</td>'
+ 																			   	+'<td>'+ '<input type="text" class="form-control fee'+data[i].householdSeq+'" value="'+Commas(data[i].feeList[0].electricityBill)+'"readonly>'+ '</td>'
+																			   	+'<td id="modFeeTd'+data[i].householdSeq+'">'+ '<button name="living'+data[i].feeList[0].ho+'" id="modFee'+data[i].householdSeq+'" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm modFeeBtn">'
+																			   	+'관리비조정'+ '</button>'
+																			   	+ '</td>' 
+																			   	+'<td  id="modFeeSaveTd'+data[i].householdSeq+'" hidden>'+ '<button  id="modFeeSave'+data[i].householdSeq+'" class="d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm modFeeBtnSave" data-toggle="modal" data-target="#UpdateCheck">'
+																			   	+'저장'+ '</button>'
+																			   	+ '</td>' 
 																			  +'</tr>');
+										
  										
+ 										$(".fee"+data[i].householdSeq).css("width","110px")
+ 													   .css("text-align", "center")
+ 													   .css("display", "block")
+ 													   .css("margin","0 auto");
  										
- 										
- 										$("#meterTable").append('<tr>'
- 											   	+'<td id="householdHo' + i +'">'+ data[i].feeList[0].ho+ '</td>'
- 											   	+'<td>'+ '<input type="text" class="form-control meter" id="electricMeter' + i +'">'+ '</td>'
- 											   	+'<td>'+ '<input type="text" class="form-control meter" id="waterMeter' + i +'">'+ '</td>'
- 											   	+'<td id="householdSeq' + i +'" hidden>'+ data[i].householdSeq + '</td>'
- 											 +'</tr>'); 
- 										
- 										
-  										
-	  	  									 									
- 											$("#meterReg").on("click", function () {
- 												
-   	  										var meter = {
-	  	  												unitPriceSeq : parseInt($("#unitPriceSeq").html()),
-	  	  												householdSeq : parseInt($('#householdSeq'+i).html()),
-	  	  												electricMeter : parseInt($('#electricMeter'+i).val()),
-	  	  												waterMeter : parseInt($('#waterMeter'+i).val()),
-	  	  										};
-   	  										
-											console.log(meter);
-	
- 												
-/* 	   											feeService.addMeter(meter, function(result) {
-	   												alert("관리비 요금계산이 완료되었습니다.");
-	  	  										});   */
-											});
 								} 
 						 		 $(".dongtd").attr('rowspan',i+1); 
+						 		 
+						 		
+									$(".modFeeBtn").on("click", function() {
+										var ho = $(this).attr("name").replace(/[^0-9]/g,'');
+										var householdSeq = $(this).attr("id").replace(/[^0-9]/g,'');
+										$(".fee"+householdSeq).attr("readonly", false);
+										$("#modFeeTd"+householdSeq).attr("hidden", true);
+										$("#modFeeSaveTd"+householdSeq).attr("hidden", false);
+										
+										
+									$("#modFeeSave"+householdSeq).on("click", function() {
+										$("#feeUpdateContent").html($("#selectDong option:selected").val() +"동 " + ho + "호의 관리비 내역을 수정합니다.");
+										$("#save").on("click", function () {
+											
+											$(".fee"+householdSeq).attr("readonly", true);
+											$("#modFeeTd"+householdSeq).attr("hidden", false);
+											$("#modFeeSaveTd"+householdSeq).attr("hidden", true);	
+											
+										
+											
+											var feeItem = $(".fee"+householdSeq);
+	 										var fee = {
+													generalBill : feeItem.eq(0).val(),
+													securityBill : feeItem.eq(1).val(),
+													cleaningBill : feeItem.eq(2).val(),
+													fumigationBill : feeItem.eq(3).val(),
+													elevatorBill : feeItem.eq(4).val(),
+													electricityBill : feeItem.eq(5).val(),
+													waterBill : feeItem.eq(6).val(),
+													householdSeq : householdSeq,
+													levySeq : data[0].feeList[0].levySeq
+											};
+											
+												feeService.updateFee(fee, function() {
+												}); 
+												$("#UpdateCheck").modal("hide");
+												$("#feeUpdateContent").html('');
+										});
+										
+										});
+										
+									});
+									
 								
 							}).fail(function(xhr, status, err) {
 								if(error){
 									error();
 								}
 							});
+						}) ;
 				}); 
 			
 			
-
 			$("#selectDong").on("change", function() {
 				
 				var thisLevyDate = "<c:out value="${levyD}"/>";
 				var selectedDong = $("#selectDong option:selected").val();
 				console.log(thisLevyDate);
 				
-			 	feeService.listFeeReg({dong : selectedDong},
-			 			function(list) {
+				feeService.levyInfo({levyDate : "<c:out value="${levyD}"/>", aptSeq : ${principal.aptSeq} }, function(levinfo) {
+					console.log(levinfo);
+				
+			 	feeService.listFeeReg({levySeq: levinfo.levySeq ,dong : selectedDong}, function(list) {
 			 		console.log(list);
 			 		$("#feeTable").html('');
-			 		$("#meterTable").empty();
 			 		$("#feeTable").append('<tr>'
 						   	+'<td class="dongtd" style="vertical-align: middle;">'+ selectedDong + '</td>' + '</tr>');
+			 		
+			 		
 			 		for(var i = 0, len = list.length||0; i <len; i++){
 							$("#feeTable").append('<tr>'
 																   	+'<td>'+ list[i].feeList[0].ho+ '</td>'
-																   	+'<td>'+ list[i].feeList[0].roomSize+'m²'+ '</td>'
-																   	+'<td>'+ Commas(list[i].feeList[0].generalBill)+ '</td>'
-																   	+'<td>'+ Commas(list[i].feeList[0].securityBill)+ '</td>'
-																   	+'<td>'+ Commas(list[i].feeList[0].cleaningBill)+ '</td>'
-																   	+'<td>'+ Commas(list[i].feeList[0].fumigationBill)+ '</td>'
-																   	+'<td>'+ Commas(list[i].feeList[0].elevatorBill)+ '</td>'
-																   	+'<td>'+ Commas(list[i].feeList[0].electricityBill)+ '</td>'
-																   	+'<td>'+ Commas(list[i].feeList[0].waterBill)+ '</td>'
+																   	+'<td>'+ '<input type="text" class="form-control fee'+list[i].householdSeq+'" value="'+Commas(list[i].feeList[0].generalBill)+'"readonly>'+ '</td>'
+																   	+'<td>'+ '<input type="text" class="form-control fee'+list[i].householdSeq+'" value="'+Commas(list[i].feeList[0].securityBill)+'"readonly>'+ '</td>'
+																   	+'<td>'+ '<input type="text" class="form-control fee'+list[i].householdSeq+'" value="'+Commas(list[i].feeList[0].fumigationBill)+'"readonly>'+ '</td>'
+																   	+'<td>'+ '<input type="text" class="form-control fee'+list[i].householdSeq+'" value="'+Commas(list[i].feeList[0].elevatorBill)+'"readonly>'+ '</td>'
+																   	+'<td>'+ '<input type="text" class="form-control fee'+list[i].householdSeq+'" value="'+Commas(list[i].feeList[0].electricityBill)+'"readonly>'+ '</td>'
+																   	+'<td>'+ '<input type="text" class="form-control fee'+list[i].householdSeq+'" value="'+Commas(list[i].feeList[0].waterBill)+'"readonly>'+ '</td>'
+																   	+'<td>'+ '<input type="text" class="form-control fee'+list[i].householdSeq+'" value="'+Commas(list[i].feeList[0].electricityBill)+'"readonly>'+ '</td>'
+																   	+'<td id="modFeeTd'+list[i].householdSeq+'">'+ '<button name="living'+list[i].feeList[0].ho+'" id="modFee'+list[i].householdSeq+'" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm modFeeBtn">'
+																   	+'관리비조정'+ '</button>'
+																   	+ '</td>' 
+																   	+'<td  id="modFeeSaveTd'+list[i].householdSeq+'" hidden>'+ '<button id="modFeeSave'+list[i].householdSeq+'" class="d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm modFeeBtnSave" data-toggle="modal" data-target="#UpdateCheck">'
+																   	+'저장'+ '</button>'
+																   	+ '</td>' 
 																 +'</tr>');
 							
+								$(".fee"+list[i].householdSeq).css("width","110px")
+								   .css("text-align", "center")
+								   .css("display", "block")
+								   .css("margin","0 auto");
 							
-								
-								$("#meterTable").append('<tr>'
-									   	+'<td id="householdHo' + i +'">'+ list[i].feeList[0].ho+ '</td>'
-									   	+'<td>'+ '<input type="text" class="form-control meter" id="electricMeter' + i +'">'+ '</td>'
-									   	+'<td>'+ '<input type="text" class="form-control meter" id="waterMeter' + i +'">'+ '</td>'
-									 +'</tr>'); 
-								
-								
-
-								
-/* 								$("#householdlist").append('<p id="getHousehold' + i +'">'+list[i].householdSeq+'</p>'); */
-									
-/*   								$('#electricMeter'+i).val(meter.electricMeter);
-								$('#waterMeter'+i).val(meter.waterMeter); */
-								
-/* 										$("#meterReg").on("click", function () {
-											
-											var meter = {
-													unitPriceSeq : parseInt($("#unitPriceSeq").html()),
-													householdSeq : list[i].householdSeq,
-													electricMeter : $('#electricMeter'+i).val(),
-													waterMeter : $('#waterMeter'+i).val(),
-											};
-											console.log(meter); 
-												
-   											feeService.addMeter(meter, function(result) {
-   												alert("관리비 요금계산이 완료되었습니다.");
-  	  										});  
-										}); */
-								
-								
-
 					} 
 			 		$(".dongtd").attr('rowspan',i+1);
-						}) ;
-			});
-			
-			
-
-			
-			$("#unitPrice").on("click", function() {
-				$("#calModal").modal('show');
-	 			$(".unitP").attr("readonly", true);
-				
-	 			var unitPriceSeq = $("#unitPriceSeq").html();
-	 			
-	 			feeService.getUnitPrice(unitPriceSeq, function(data) {
-	 				$("#generalPrice").val(data.generalPrice);
-	 				$("#securityPrice").val(data.securityPrice);
-	 				$("#cleaningPrice").val(data.cleaningPrice);
-	 				$("#fumigationPrice").val(data.fumigationPrice);
-	 				$("#elevatorPrice").val(data.elevatorPrice);
-	 				$("#electricityPrice").val(data.electricityPrice);
-	 				$("#waterPrice").val(data.waterPrice);
-				}); 
-	 			
-				$("#ModJob").attr("hidden", true);
-				$("#unitPriceMod").attr("hidden", false);
-			});
-			
-			$("#unitPriceMod").on("click", function() {
-				$(this).attr("hidden", true);
-				$("#ModJob").attr("hidden", false);
-				$(".unitP").attr("readonly", false);
-			});
-			
-			$("#ModJob").on("click", function() {
-				$(this).attr("hidden", true);
-				$("#unitPriceMod").attr("hidden", false);
-				$(".unitP").attr("readonly", true);
-				
-				var unitPriceSeq = $("#unitPriceSeq").html();
-				
-				var updateInfo = {
-						unitPriceSeq : unitPriceSeq,
-						generalPrice : $("#generalPrice").val(),
-						securityPrice : $("#securityPrice").val(),
-						cleaningPrice : $("#cleaningPrice").val(),
-						fumigationPrice : $("#fumigationPrice").val(),
-						elevatorPrice : $("#elevatorPrice").val(),
-						electricityPrice : $("#electricityPrice").val(),
-						waterPrice : $("#waterPrice").val()
-				};
-				
-				feeService.updateUnitPrice(updateInfo, function (data) {
-					console.log(data);
-				});
-			});
-			
-			$("#unitPriceReg").on("click", function() {
-				$("#calModal").modal('hide');
-				$("#meterModal").modal('show');
-				
-				
-			});
-			
-			$("#previousModal").on("click", function() {
-				$("#meterModal").modal('hide');
-				$("#calModal").modal('show');
-			});
-			
-			
-			
-			
- 			$("#meterReadJob").on("click", function() {
-				for(var i = 0, len = updateM.length||0; i <len; i++){
-					
-					var meter = {
-							electricMeter : $('#electricMeter'+i).val(),
-							waterMeter : $('#waterMeter'+i).val(),
-							householdSeq : $('#getHousehold'+i).html()
-					};
-					
-				feeService.updateMeter(meter, function(updateM) {
+			 		
+			 		
+					$(".modFeeBtn").on("click", function() {
+						var ho = $(this).attr("name").replace(/[^0-9]/g,'');
+						var householdSeq = $(this).attr("id").replace(/[^0-9]/g,'');
+						$(".fee"+householdSeq).attr("readonly", false);
+						$("#modFeeTd"+householdSeq).attr("hidden", true);
+						$("#modFeeSaveTd"+householdSeq).attr("hidden", false);
+						
+						
+					$("#modFeeSave"+householdSeq).on("click", function() {
+						$("#feeUpdateContent").html($("#selectDong option:selected").val() +"동 " + ho + "호의 관리비 내역을 수정합니다.");
+						$("#save").on("click", function () {
+							
+						$(".fee"+householdSeq).attr("readonly", true);
+						$("#modFeeTd"+householdSeq).attr("hidden", false);
+						$("#modFeeSaveTd"+householdSeq).attr("hidden", true);	
+							
+						
+							
+							var feeItem = $(".fee"+householdSeq);
+								var fee = {
+									generalBill : feeItem.eq(0).val(),
+									securityBill : feeItem.eq(1).val(),
+									cleaningBill : feeItem.eq(2).val(),
+									fumigationBill : feeItem.eq(3).val(),
+									elevatorBill : feeItem.eq(4).val(),
+									electricityBill : feeItem.eq(5).val(),
+									waterBill : feeItem.eq(6).val(),
+									householdSeq : householdSeq,
+									levySeq : list[0].feeList[0].levySeq
+							};
+							
+								feeService.updateFee(fee, function() {
+								}); 
+								$("#UpdateCheck").modal("hide");
+								$("#feeUpdateContent").html('');
+						});
+						
+						});
 						
 					});
-					
-				
-				}
-			}); 
-
+						
+			});
 			
-
-		
-		
-			
-			
-			
-			
-			
-			
-			
+			});
 			
 		
 		
 	});
+			
+	});
 	
 	
 	
-
 	
-
 	
 /* 	var member_seq = $('#member_seq');
 	var general_fee = $('#general_fee');
@@ -527,7 +398,6 @@
 	var water_fee = $('#water_fee');
 	var heating_fee = $('#heating_fee');
 	var pay_date = $('#pay_date');
-
 	$(function() {
 		//숫자 세자리 수 마다 콤마 붙는 정규표현식 함수
 		function AmountCommas(val){

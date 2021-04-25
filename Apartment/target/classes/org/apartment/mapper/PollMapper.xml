@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.apartment.mapper.PollMapper">
+
+	<select id="PollList" resultType="org.apartment.domain.PollVO"
+		parameterType="org.apartment.domain.TenantVO">
+		select *
+		from poll
+		where apt_seq = #{aptSeq}
+		order by poll_seq desc
+	</select>
+
+	<select id="PollOnList" resultType="org.apartment.domain.PollVO"
+		parameterType="org.apartment.domain.TenantVO">
+		select *
+		from poll
+		where apt_seq = #{aptSeq}
+		and end_date > sysdate
+		order
+		by
+		poll_seq desc
+	</select>
+
+	<select id="PollEndList" resultType="org.apartment.domain.PollVO"
+		parameterType="org.apartment.domain.TenantVO">
+		select *
+		from poll
+		where apt_seq = #{aptSeq}
+		and sysdate > end_date
+		order
+		by
+		poll_seq desc
+	</select>
+
+	<insert id="PollInsert" parameterType="org.apartment.domain.PollVO">
+		insert into poll
+		values(poll_seq.nextval,#{question},#{startDate},#{endDate},0,#{contents},#{aptSeq})
+	</insert>
+
+	<insert id="PollOptionInsert" parameterType="java.util.List">
+		insert into poll_options(option_seq, option_text, poll_seq) select
+		option_seq.nextval, A.* , poll_seq.currval From(
+		<foreach collection="list" item="item" index="index"
+			separator="UNION ALL ">
+			select #{item.optionText} From dual
+		</foreach>
+		) A
+	</insert>
+
+	<select id="PollDetail" resultType="org.apartment.domain.PollDetailVO">
+		select *
+		from poll_select ps
+		left join member mb
+		on mb.member_seq = ps.member_seq
+		left join
+		poll_options po
+		on po.OPTION_SEQ = ps.OPTION_SEQ
+		left join poll p
+		on
+		p.POLL_SEQ = po.POLL_SEQ
+		left join HOUSEHOLD h
+		on mb.HOUSEHOLD_SEQ = h.HOUSEHOLD_SEQ
+		where p.poll_seq = #{seq}
+	</select>
+
+	<select id="PollOptionList" resultType="org.apartment.domain.PollOptionVO"
+		parameterType="org.apartment.domain.PollVO">
+		select * from poll_options where poll_seq = #{pollSeq}
+	</select>
+
+	<select id="PollSelectLookup" parameterType="org.apartment.domain.PollLookupVO"
+		resultType="int">
+		select nvl(count(*),0) count from poll_select ps
+		left join poll_options op on op.OPTION_SEQ = ps.OPTION_SEQ
+		left join poll p on p.POLL_SEQ = op.POLL_SEQ
+		left join member m on ps.member_seq = m.member_seq
+		left join household h on m.household_seq = h.household_seq
+		where h.household_seq = #{householdSeq}
+		and p.poll_seq = #{pollSeq}
+	</select>
+
+	<select id="PollSelectInsert" parameterType="org.apartment.domain.PollSelectVO">
+		<if test='memberSeq != "1"'>
+			insert into poll_select
+			values(poll_select_seq.nextval,#{memberSeq},sysdate,#{optionSeq},#{fileName})
+		</if>
+	</select>
+
+	<select id="PollChart" resultType="org.apartment.domain.PollChartVO"
+		parameterType="org.apartment.domain.PollVO">
+		select po.option_text as option_text, count(*) as cnt
+		from poll_select ps
+		left join
+		poll_options po
+		on po.OPTION_SEQ =
+		ps.OPTION_SEQ
+		left join poll p
+		on
+		p.POLL_SEQ = po.POLL_SEQ
+		where
+		p.poll_seq = #{pollSeq}
+		group by po.option_text
+	</select>
+
+</mapper>

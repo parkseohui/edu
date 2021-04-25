@@ -23,7 +23,7 @@
          content="width=device-width, initial-scale=1, shrink-to-fit=no">
       <meta name="description" content="">
       <meta name="author" content="">
-      <title>안녕하세요. 아파투게더입니다.</title>
+      <title>안녕하세요.</title>
       <!-- Custom fonts for this template-->
       <link href="/resources/vendor/fontawesome-free/css/all.min.css"
          rel="stylesheet" type="text/css">
@@ -37,7 +37,7 @@
          var label = [];
          <c:forEach items="${reverseFee}" var="fee">
          	console.log("${fee}");
-         	data.push(${fee.getTotalValue()});
+         	data.push("${fee.getTotalValue()}");
          	console.log("${fee.pay_date}");
          	var tmpDate = new Date("${fee.pay_date}");
          	console.log(tmpDate);
@@ -71,7 +71,7 @@
       <!-- Page Wrapper -->
       <div id="wrapper">
          <!-- Sidebar -->
-         <%@ include file="userMenu.jsp"%>
+<jsp:include page="userMenu.jsp"></jsp:include>
          <!-- Begin Page Content -->
          <div class="container-fluid">
             <!-- Page Heading -->
@@ -96,7 +96,7 @@
                      <div class="card" style="margin: 30px 115px 20px 115px;"
                         align="center">
                         <div class="card-body">
-                           <img src="/Aptogether/css/image/receipt.png" alt="관리비"
+                           <img src="/apartment/css/image/receipt.png" alt="관리비"
                               style="width: 100px; height: 100px; float: left;">
                            <c:choose>
                               <c:when test="${last eq null}">
@@ -120,19 +120,19 @@
                                        <c:choose>
                                           <c:when
                                              test="${last.getTotalValue() gt beforeLast.getTotalValue()}">
-                                             <img src="/Aptogether/css/image/up.png" alt="up"
+                                             <img src="/apartment/css/image/up.png" alt="up"
                                                 style="width: 20px; height: 20px; padding-bottom: 3px;">
                                              ${last.getTotalValue() - beforeLast.getTotalValue()}원 증가
                                           </c:when>
                                           <c:when
                                              test="${last.getTotalValue() lt beforeLast.getTotalValue()}">
-                                             <img src="/Aptogether/css/image/down.png" alt="down"
+                                             <img src="/apartment/css/image/down.png" alt="down"
                                                 style="width: 20px; height: 20px; padding-bottom: 3px;">
                                              ${beforeLast.getTotalValue() - last.getTotalValue()}원 감소
                                           </c:when>
                                           <c:when
                                              test="${last.getTotalValue() eq beforeLast.getTotalValue()}">
-                                             <img src="/Aptogether/css/image/equal.png" alt="down"
+                                             <img src="/apartment/css/image/equal.png" alt="down"
                                                 style="width: 20px; height: 20px; padding-bottom: 3px;">
                                              관리비 부과액이 같습니다(증감액 0원)
                                           </c:when>
@@ -243,17 +243,17 @@
                                                    <c:choose>
                                                       <c:when
                                                          test="${last.getGeneral_fee() gt beforeLast.getGeneral_fee()}">
-                                                         <img src="/Aptogether/css/image/up.png" alt="up"
+                                                         <img src="/apartment/css/image/up.png" alt="up"
                                                             style="width: 20px; height: 20px; padding-bottom: 3px;">
                                                       </c:when>
                                                       <c:when
                                                          test="${last.getGeneral_fee() lt beforeLast.getGeneral_fee()}">
-                                                         <img src="/Aptogether/css/image/down.png" alt="down"
+                                                         <img src="/apartment/css/image/down.png" alt="down"
                                                             style="width: 20px; height: 20px; padding-bottom: 3px;">
                                                       </c:when>
                                                       <c:when
                                                          test="${last.getGeneral_fee() eq beforeLast.getGeneral_fee()}">
-                                                         <img src="/Aptogether/css/image/equal.png" alt="down"
+                                                         <img src="/apartment/css/image/equal.png" alt="down"
                                                             style="width: 20px; height: 20px; padding-bottom: 3px;">
                                                       </c:when>
                                                    </c:choose>
@@ -267,17 +267,17 @@
                                                    <c:choose>
                                                       <c:when
                                                          test="${last.getSecurity_fee() gt beforeLast.getSecurity_fee()}">
-                                                         <img src="/Aptogether/css/image/up.png" alt="up"
+                                                         <img src="/apartment/css/image/up.png" alt="up"
                                                             style="width: 20px; height: 20px; padding-bottom: 3px;">
                                                       </c:when>
                                                       <c:when
                                                          test="${last.getSecurity_fee() lt beforeLast.getSecurity_fee()}">
-                                                         <img src="/Aptogether/css/image/down.png" alt="down"
+                                                         <img src="/apartment/css/image/down.png" alt="down"
                                                             style="width: 20px; height: 20px; padding-bottom: 3px;">
                                                       </c:when>
                                                       <c:when
                                                          test="${last.getSecurity_fee() eq beforeLast.getSecurity_fee()}">
-                                                         <img src="/Aptogether/css/image/equal.png" alt="down"
+                                                         <img src="/apartment/css/image/equal.png" alt="down"
                                                             style="width: 20px; height: 20px; padding-bottom: 3px;">
                                                       </c:when>
                                                    </c:choose>
@@ -291,17 +291,17 @@
                                                    <c:choose>
                                                       <c:when
                                                          test="${last.getCleaning_fee() gt beforeLast.getCleaning_fee()}">
-                                                         <img src="/Aptogether/css/image/up.png" alt="up"
+                                                         <img src="/apartment/css/image/up.png" alt="up"
                                                             style="width: 20px; height: 20px; padding-bottom: 3px;">
                                                       </c:when>
                                                       <c:when
                                                          test="${last.getCleaning_fee() lt beforeLast.getCleaning_fee()}">
-                                                         <img src="/Aptogether/css/image/down.png" alt="down"
+                                                         <img src="/apartment/css/image/down.png" alt="down"
                                                             style="width: 20px; height: 20px; padding-bottom: 3px;">
                                                       </c:when>
                                                       <c:when
                                                          test="${last.getCleaning_fee() eq beforeLast.getCleaning_fee()}">
-                                                         <img src="/Aptogether/css/image/equal.png" alt="down"
+                                                         <img src="/apartment/css/image/equal.png" alt="down"
                                                             style="width: 20px; height: 20px; padding-bottom: 3px;">
                                                       </c:when>
                                                    </c:choose>
@@ -315,17 +315,17 @@
                                                    <c:choose>
                                                       <c:when
                                                          test="${last.getFumigation_fee() gt beforeLast.getFumigation_fee()}">
-                                                         <img src="/Aptogether/css/image/up.png" alt="up"
+                                                         <img src="/apartment/css/image/up.png" alt="up"
                                                             style="width: 20px; height: 20px; padding-bottom: 3px;">
                                                       </c:when>
                                                       <c:when
                                                          test="${last.getFumigation_fee() lt beforeLast.getFumigation_fee()}">
-                                                         <img src="/Aptogether/css/image/down.png" alt="down"
+                                                         <img src="/apartment/css/image/down.png" alt="down"
                                                             style="width: 20px; height: 20px; padding-bottom: 3px;">
                                                       </c:when>
                                                       <c:when
                                                          test="${last.getFumigation_fee() eq beforeLast.getFumigation_fee()}">
-                                                         <img src="/Aptogether/css/image/equal.png" alt="down"
+                                                         <img src="/apartment/css/image/equal.png" alt="down"
                                                             style="width: 20px; height: 20px; padding-bottom: 3px;">
                                                       </c:when>
                                                    </c:choose>
@@ -339,17 +339,17 @@
                                                    <c:choose>
                                                       <c:when
                                                          test="${last.getLift_maintenance_fee() gt beforeLast.getLift_maintenance_fee()}">
-                                                         <img src="/Aptogether/css/image/up.png" alt="up"
+                                                         <img src="/apartment/css/image/up.png" alt="up"
                                                             style="width: 20px; height: 20px; padding-bottom: 3px;">
                                                       </c:when>
                                                       <c:when
                                                          test="${last.getLift_maintenance_fee() lt beforeLast.getLift_maintenance_fee()}">
-                                                         <img src="/Aptogether/css/image/down.png" alt="down"
+                                                         <img src="/apartment/css/image/down.png" alt="down"
                                                             style="width: 20px; height: 20px; padding-bottom: 3px;">
                                                       </c:when>
                                                       <c:when
                                                          test="${last.getLift_maintenance_fee() eq beforeLast.getLift_maintenance_fee()}">
-                                                         <img src="/Aptogether/css/image/equal.png" alt="down"
+                                                         <img src="/apartment/css/image/equal.png" alt="down"
                                                             style="width: 20px; height: 20px; padding-bottom: 3px;">
                                                       </c:when>
                                                    </c:choose>
@@ -363,17 +363,17 @@
                                                    <c:choose>
                                                       <c:when
                                                          test="${last.getElectricity_fee() gt beforeLast.getElectricity_fee()}">
-                                                         <img src="/Aptogether/css/image/up.png" alt="up"
+                                                         <img src="/apartment/css/image/up.png" alt="up"
                                                             style="width: 20px; height: 20px; padding-bottom: 3px;">
                                                       </c:when>
                                                       <c:when
                                                          test="${last.getElectricity_fee() lt beforeLast.getElectricity_fee()}">
-                                                         <img src="/Aptogether/css/image/down.png" alt="down"
+                                                         <img src="/apartment/css/image/down.png" alt="down"
                                                             style="width: 20px; height: 20px; padding-bottom: 3px;">
                                                       </c:when>
                                                       <c:when
                                                          test="${last.getElectricity_fee() eq beforeLast.getElectricity_fee()}">
-                                                         <img src="/Aptogether/css/image/equal.png" alt="down"
+                                                         <img src="/apartment/css/image/equal.png" alt="down"
                                                             style="width: 20px; height: 20px; padding-bottom: 3px;">
                                                       </c:when>
                                                    </c:choose>
@@ -387,17 +387,17 @@
                                                    <c:choose>
                                                       <c:when
                                                          test="${last.getWater_fee() gt beforeLast.getWater_fee()}">
-                                                         <img src="/Aptogether/css/image/up.png" alt="up"
+                                                         <img src="/apartment/css/image/up.png" alt="up"
                                                             style="width: 20px; height: 20px; padding-bottom: 3px;">
                                                       </c:when>
                                                       <c:when
                                                          test="${last.getWater_fee() lt beforeLast.getWater_fee()}">
-                                                         <img src="/Aptogether/css/image/down.png" alt="down"
+                                                         <img src="/apartment/css/image/down.png" alt="down"
                                                             style="width: 20px; height: 20px; padding-bottom: 3px;">
                                                       </c:when>
                                                       <c:when
                                                          test="${last.getWater_fee() eq beforeLast.getWater_fee()}">
-                                                         <img src="/Aptogether/css/image/equal.png" alt="down"
+                                                         <img src="/apartment/css/image/equal.png" alt="down"
                                                             style="width: 20px; height: 20px; padding-bottom: 3px;">
                                                       </c:when>
                                                    </c:choose>
@@ -411,17 +411,17 @@
                                                    <c:choose>
                                                       <c:when
                                                          test="${last.getHeating_fee() gt beforeLast.getHeating_fee()}">
-                                                         <img src="/Aptogether/css/image/up.png" alt="up"
+                                                         <img src="/apartment/css/image/up.png" alt="up"
                                                             style="width: 20px; height: 20px; padding-bottom: 3px;">
                                                       </c:when>
                                                       <c:when
                                                          test="${last.getHeating_fee() lt beforeLast.getHeating_fee()}">
-                                                         <img src="/Aptogether/css/image/down.png" alt="down"
+                                                         <img src="/apartment/css/image/down.png" alt="down"
                                                             style="width: 20px; height: 20px; padding-bottom: 3px;">
                                                       </c:when>
                                                       <c:when
                                                          test="${last.getHeating_fee() eq beforeLast.getHeating_fee()}">
-                                                         <img src="/Aptogether/css/image/equal.png" alt="down"
+                                                         <img src="/apartment/css/image/equal.png" alt="down"
                                                             style="width: 20px; height: 20px; padding-bottom: 3px;">
                                                       </c:when>
                                                    </c:choose>

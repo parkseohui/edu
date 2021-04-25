@@ -13,7 +13,7 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
 
-    <title>Aptogether - 세입자 회원가입</title>
+    <title>Apartment - 세입자 회원가입</title>
 
     <!-- Custom fonts for this template-->
     <link
@@ -102,7 +102,7 @@
             <div class="col-lg-7">
               <div class="p-5">
                 <div class="text-center">
-                  <h1 class="h4 text-gray-900 mb-4">Aptogether - 회원가입</h1>
+                  <h1 class="h4 text-gray-900 mb-4">Apartment - 회원가입</h1>
                 </div>
                 <form:form class="user" action="/tenant/signup" modelAttribute="JoinVO" method="post">
                   <div class="form-group row">

@@ -2,12 +2,16 @@ package org.apartment.controller;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import org.apartment.domain.CustomKeeper;
+import org.apartment.domain.CustomUser;
 import org.apartment.domain.JoinKeeperVO;
 import org.apartment.domain.JoinTenantVO;
+import org.apartment.domain.TenantFeeInfoVO;
 import org.apartment.mapper.MemberMapper;
+import org.apartment.service.FeeService;
 import org.apartment.service.MemberService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,8 +40,10 @@ public class HomeController {
 	@Autowired
 	MemberService memberService;
 	@Autowired
+	FeeService feeService;
+	@Autowired
 	MemberMapper memberMapper;
-
+	
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
@@ -63,6 +69,62 @@ public class HomeController {
 		model.addAttribute("waiting", memberMapper.showNotAdmitUser(keeper.getAptSeq()));
 		return "managerDashBoard";
 	}
+	@GetMapping("/tenant/dashboard")
+	public String tenantHome(Authentication auth, Model model) {
+		CustomUser user = (CustomUser) auth.getPrincipal();
+		System.out.println(user.getAptSeq());
+		List<TenantFeeInfoVO> tenantFeeInfoVO =  feeService.tenantFeeInfo(user.getMemberSeq(), 6);
+		model.addAttribute("tenantFeeInfo", tenantFeeInfoVO);
+		System.out.println(tenantFeeInfoVO.size());
+		
+		TenantFeeInfoVO last = null;
+		TenantFeeInfoVO beforeLast = null;
+		TenantFeeInfoVO thirdLast = null;
+		TenantFeeInfoVO fourthLast = null;
+		TenantFeeInfoVO fifthLast = null;
+		TenantFeeInfoVO sixthLast = null;
+
+		if (tenantFeeInfoVO != null && tenantFeeInfoVO.size() >= 6) {
+			last = tenantFeeInfoVO.get(0);
+			beforeLast = tenantFeeInfoVO.get(1);
+			thirdLast = tenantFeeInfoVO.get(2);
+			fourthLast = tenantFeeInfoVO.get(3);
+			fifthLast = tenantFeeInfoVO.get(4);
+			sixthLast = tenantFeeInfoVO.get(5);
+		} else if (tenantFeeInfoVO != null && tenantFeeInfoVO.size() == 5) {
+			last = tenantFeeInfoVO.get(0);
+			beforeLast = tenantFeeInfoVO.get(1);
+			thirdLast = tenantFeeInfoVO.get(2);
+			fourthLast = tenantFeeInfoVO.get(3);
+			fifthLast = tenantFeeInfoVO.get(4);
+		} else if (tenantFeeInfoVO != null && tenantFeeInfoVO.size() == 4) {
+			last = tenantFeeInfoVO.get(0);
+			beforeLast = tenantFeeInfoVO.get(1);
+			thirdLast = tenantFeeInfoVO.get(2);
+			fourthLast = tenantFeeInfoVO.get(3);
+		} else if (tenantFeeInfoVO != null && tenantFeeInfoVO.size() == 3) {
+			last = tenantFeeInfoVO.get(0);
+			beforeLast = tenantFeeInfoVO.get(1);
+			thirdLast = tenantFeeInfoVO.get(2);
+		} else if (tenantFeeInfoVO != null && tenantFeeInfoVO.size() == 2) {
+			last = tenantFeeInfoVO.get(0);
+			beforeLast = tenantFeeInfoVO.get(1);
+			System.out.println(last);
+			
+		} else if (tenantFeeInfoVO != null && tenantFeeInfoVO.size() == 1) {
+			last = tenantFeeInfoVO.get(0);
+			System.out.println(last);
+		}
+		
+		model.addAttribute("last", last);
+		model.addAttribute("beforeLast", beforeLast);
+		model.addAttribute("thirdLast", thirdLast);
+		model.addAttribute("fourthLast", fourthLast);
+		model.addAttribute("fifthLast", fifthLast);
+		model.addAttribute("sixthLast", sixthLast);
+		
+		return "userDashBoard";
+	}
 	@GetMapping("/tenant/a")
 	public String test() {
 		return "test";
@@ -71,19 +133,22 @@ public class HomeController {
 	public String test1() {
 		return "managerDashBoard";
 	}
-	// ?꽭?엯?옄 濡쒓렇?씤 ?럹?씠吏? 
+	// 세입자 로그인 페이지 
 	@GetMapping("/tenant/signin")
 	public String signinGet() {
 		return "tenantSignin";
 	}
-	
+	@GetMapping("/tenant/main")
+	public String tt() {
+		return "userDashBoard";
+	}
 	
 	@GetMapping("/keeper/signin")
 	public String signinKeeper() {
 		return "keeperSignin";
 	}
 	
-	// tenant ?쉶?썝媛??엯 ?럹?씠吏? & ?쉶?썝媛??엯?떆 form ?슂泥? 諛쏅뒗 ?럹?씠吏? 
+	// tenant 회원가입 페이지 & 회원가입시 form 요청 받는 페이지 
 	@GetMapping("/tenant/signup")
 	public String signUpGet() {
 		return "tenantSignup";
@@ -96,17 +161,17 @@ public class HomeController {
 		int result = memberService.joinTenantService(member);
 		System.out.println(member);
 		if (result == -1) {
-			rttr.addFlashAttribute("status", "媛믪씠 以묐났?릺?뿀?뒿?땲?떎.");
+			rttr.addFlashAttribute("status", "값이 중복되었습니다.");
 			return "redirect:/tenant/signup";
 		} else if (result == 0) {
-			rttr.addFlashAttribute("status", "臾몄젣媛? ?씪?뼱?궗?뒿?땲?떎. ?옞?떆?썑 ?떆?룄?빐二쇱꽭?슂.");
+			rttr.addFlashAttribute("status", "문제가 일어났습니다. 잠시후 시도해주세요.");
 			return "redirect:/tenant/signup";
 		} else {
-			rttr.addFlashAttribute("status", "?꽦怨듭쟻?쑝濡? ?쉶?썝媛??엯 ?릺?뿀?뒿?땲?떎 濡쒓렇?씤 ?빐二쇱꽭?슂.");
+			rttr.addFlashAttribute("status", "성공적으로 회원가입 되었습니다 로그인 해주세요.");
 			return "redirect:/tenant/signin";
 		}
 	}
-	// keeper ?쉶?썝媛??엯 ?럹?씠吏? & ?쉶?썝媛??엯?떆 form ?슂泥? 諛쏅뒗 遺?遺? 
+	// keeper 회원가입 페이지 & 회원가입시 form 요청 받는 부분 
 	@GetMapping(value ="/keeper/signup")
 	public String keeperSignupPage() {
 		return "keeperSignup";
@@ -119,18 +184,18 @@ public class HomeController {
 		int result = memberService.joinKeeperService(keeper);
 		System.out.println(keeper);
 		if (result == -1) {
-			rttr.addFlashAttribute("status", "媛믪씠 以묐났?릺?뿀?뒿?땲?떎.");
+			rttr.addFlashAttribute("status", "값이 중복되었습니다.");
 			return "redirect:signup";
 		} else if (result == 0) {
-			rttr.addFlashAttribute("status", "臾몄젣媛? ?씪?뼱?궗?뒿?땲?떎. ?옞?떆?썑 ?떆?룄?빐二쇱꽭?슂.");
+			rttr.addFlashAttribute("status", "문제가 일어났습니다. 잠시후 시도해주세요.");
 			return "redirect:signup";
 		} else {
-			rttr.addFlashAttribute("status", "?꽦怨듭쟻?쑝濡? ?쉶?썝媛??엯 ?릺?뿀?뒿?땲?떎 濡쒓렇?씤 ?빐二쇱꽭?슂.");
+			rttr.addFlashAttribute("status", "성공적으로 회원가입 되었습니다 로그인 해주세요.");
 			return "redirect:/signin";
 		}
 	}
 	
-	// ?븘?뙆?듃 留뚮뱶?뒗 ?럹?씠吏? 留ㅽ븨 
+	// 아파트 만드는 페이지 매핑 
 	@GetMapping("/createApt")
 	public String createApt() {
 		return "createApt";

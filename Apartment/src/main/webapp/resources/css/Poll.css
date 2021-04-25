@@ -1,0 +1,64 @@
+@charset "UTF-8";
+
+#poll_hitcount{
+	width: 20px;
+}
+
+.margin-auto{
+	margin: auto;
+}
+
+.float-left2{
+	float: left;
+	height: 80px;
+}
+
+.margin-bottom-button{
+	margin-bottom: 10px;
+}
+
+.margin-left-span{
+	margin-left: 18%;
+}
+
+.max-width-card{
+	max-width: 28rem;
+}
+
+.custom-bg{
+	background-color: #4C74B9;
+}
+.custom-header-bg{
+	background-color: #7492C8;
+}
+
+
+
+.alert{
+	display: none;
+}
+
+.bigPicture{
+	width: 100%;
+}
+
+.pollList{
+	margin-top: 1em;
+}
+
+.header-group{
+	margin-left: 1em;
+	margin-right: 1em;
+}
+
+.list-btn{
+	float: left;
+}
+
+.list-footer{
+	text-align: right;
+}
+
+.text-end{
+	text-align: end;
+}

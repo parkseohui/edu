@@ -57,7 +57,7 @@
 										<div class="col mr-2">
 											<div
 												class="text-xs font-weight-bold text-primary text-uppercase mb-1">전자투표 등록하기</div>
-											<button class="btn btn-primary" id="" onclick="location.href='/Aptogether/poll/PollListAction.do'">투표등록</button>
+											<button class="btn btn-primary" id="" onclick="location.href='/keeper/pollList'">투표등록</button>
 										</div>
 										<div class="col-auto">
 											<i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -95,7 +95,7 @@
 												class="text-xs font-weight-bold text-info text-uppercase mb-1">아파트 일정 등록하기</div>
 											<div class="row no-gutters align-items-center">
 												<div class="col-auto">
-													<button class="btn btn-info" id="" onclick="location.href='/Aptogether/schedule/scheduleAction.do'">일정등록</button>
+													<button class="btn btn-info" id="" onclick="location.href='/keeper/scheduleKeeper'">일정등록</button>
 												</div>
 												<div class="col">
 												</div>
@@ -352,7 +352,7 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title">[AparTogether] 입주민번호 등록</h5>
+					<h5 class="modal-title">[apartment] 입주민번호 등록</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -386,7 +386,7 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title">[AparTogether] 입주민번호 등록</h5>
+					<h5 class="modal-title">[apartment] 입주민번호 등록</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>

@@ -20,11 +20,6 @@
 	</select>
 	
 	
-	<select id="findUnitPriceSeq" resultType="org.apartment.domain.UnitPriceVO">
-		select unit_price_seq from unit_price u, levy l
-		where u.levy_seq = l.levy_seq
-		and l.levy_date = #{levyDate}
-	</select>
 	
 	
 </mapper>

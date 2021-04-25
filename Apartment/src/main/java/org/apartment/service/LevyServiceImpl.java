@@ -3,7 +3,6 @@ package org.apartment.service;
 import java.util.List;
 
 import org.apartment.domain.LevyVO;
-import org.apartment.domain.UnitPriceVO;
 import org.apartment.mapper.LevyMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,12 +32,8 @@ public class LevyServiceImpl implements LevyService {
 		
 		return mapper.listLevy(levy);
 	}
+
 	
-	@Override
-	public UnitPriceVO findUnitPriceSeq(String levyDate) {
-		
-		
-		return mapper.findUnitPriceSeq(levyDate);
-	}
+
 
 }

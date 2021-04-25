@@ -11,5 +11,4 @@ public interface LevyService {
 	
 	public List<LevyVO> listLevy(LevyVO levy);
 	
-	public UnitPriceVO findUnitPriceSeq(String levyDate);
 }

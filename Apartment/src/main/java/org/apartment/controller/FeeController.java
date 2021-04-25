@@ -1,5 +1,4 @@
 package org.apartment.controller;
-
 import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -23,10 +22,6 @@ public class FeeController {
 	
 	private FeeService service;
 
-	@GetMapping("/manager")
-	public String managerDashBoard(){
-		return "managerDashBoard";
-	}
 	
 	@GetMapping("/levyRegister")
 	public String levyRegister(Authentication auth){
@@ -55,5 +50,7 @@ public class FeeController {
 		
 		return "feeRegister";
 	}
+	
+	
 
 }

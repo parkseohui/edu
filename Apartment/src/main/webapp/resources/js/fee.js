@@ -1,7 +1,5 @@
 console.log("$Fee module$");
 
-
-
 var feeService = (function() {
 	
 	
@@ -22,14 +20,11 @@ var feeService = (function() {
 					error(er);
 				}
 			}
-		});
-		
+		});	
 	}
 	
 	
 	function listLevy(callback, error) {
-		
-
 		
 		$.getJSON("/keeper/listLevy",
 				function(data) {
@@ -44,10 +39,9 @@ var feeService = (function() {
 	}
 	
 	
-	function listDong(callback, error) {
+	function householdInfo(callback, error) {
 		
-		
-		$.getJSON("/keeper/listDong",
+		$.getJSON("/keeper/householdInfo",
 				function(data) {
 					if(callback){
 						callback(data);
@@ -60,12 +54,12 @@ var feeService = (function() {
 	}
 	
 	
-	function listFeeReg(feeRef, callback, error) {
+	function levyInfo(levy, callback, error) {
 		
-		var levyDate = feeRef.levyDate;
-		var dong = feeRef.dong;
+		var aptSeq = levy.aptSeq
+		var levyDate = levy.levyDate
 		
-		$.getJSON("/keeper/listFeeReg/" + dong + ".json",
+		$.getJSON("/keeper/levyInfo/"+ aptSeq + "/" + levyDate + ".json", 
 				function(data) {
 					if(callback){
 						callback(data);
@@ -78,63 +72,12 @@ var feeService = (function() {
 	}
 	
 	
-	function getUnitPrice(unitPriceSeq, callback, error) {
-		
-		$.getJSON("/keeper/getUnitPrice/" + unitPriceSeq + ".json", 
-				function(data) {
-					if(callback){
-						callback(data);
-					}
-				}).fail(function(xhr, status, err) {
-					if(error){
-						error();
-					}
-				});
-	}
-	
-	
-	function updateUnitPrice(unitPrice, callback, error) {
-		
-		$.ajax({
-			type : 'put',
-			url : '/keeper/updateUnitPrice/' + unitPrice.unitPriceSeq,
-			data : JSON.stringify(unitPrice),
-			contentType : "application/json; charset=utf-8",
-			success : function(result, status, xhr) {
-				if(callback){
-					callback(result);
-				}
-			},
-			error : function(xhr, status, er) {
-				if(error){
-					error();
-				}
-			}
-		});
-	}
-	
-	
-	function findUnitPriceSeq(unitPriceSeq, callback, error) {
-		
-		$.getJSON("/keeper/findUnitPriceSeq/" + unitPriceSeq + ".json", 
-				function(data) {
-					if(callback){
-						callback(data);
-					}
-				}).fail(function(xhr, status, err) {
-					if(error){
-						error();
-					}
-				});
-	}
-	
-	
-	function addMeter(meter, callback, error) {
+	function addFee(fee, callback, error) {
 		
 		$.ajax({
 			type : 'post',
-			url : '/keeper/addMeter',
-			data : JSON.stringify(meter),
+			url : '/keeper/addFee',
+			data : JSON.stringify(fee),
 			contentType : "application/json; charset=utf-8",
 			success : function(result, status, xhr) {
 				if(callback){
@@ -151,13 +94,45 @@ var feeService = (function() {
 	}
 	
 	
+	function listDong(callback, error) {
+		
+		$.getJSON("/keeper/listDong",
+				function(data) {
+					if(callback){
+						callback(data);
+					}
+				}).fail(function(xhr, status, err) {
+					if(error){
+						error();
+					}
+				});
+	}
 	
-	function updateMeter(meter, callback, error) {
+	
+	function listFeeReg(feeRef, callback, error) {
+		
+		var levySeq = feeRef.levySeq;
+		var dong = feeRef.dong;
+		
+		$.getJSON("/keeper/listFeeReg/" + levySeq +"/"+dong + ".json",
+				function(data) {
+					if(callback){
+						callback(data);
+					}
+				}).fail(function(xhr, status, err) {
+					if(error){
+						error();
+					}
+				});
+	}
+	
+	
+	function updateFee(fee, callback, error) {
 		
 		$.ajax({
 			type : 'put',
-			url : '/keeper/updateMeter/' + meter.householdSeq,
-			data : JSON.stringify(meter),
+			url : '/keeper/updateFee/',
+			data : JSON.stringify(fee),
 			contentType : "application/json; charset=utf-8",
 			success : function(result, status, xhr) {
 				if(callback){
@@ -174,43 +149,14 @@ var feeService = (function() {
 	
 	
 	
-	
-//	function insertFee(fee, callback, error) {
-//		console.log("insert fee.....");
-//		
-//		$.ajax({
-//			type : "post",
-//			url : "/keeper/insertFee",
-//			data : JSON.stringify(fee),
-//			contentType : "application/json; charset=utf-8",
-//			success : function(result, status, xhr) {
-//			if (callback) {
-//				callback(result);
-//				alert("입력에 성공하셨습니다.");
-//				location.reload();
-//			} else {
-//				alert("잠시후 다시 시도해주세요.");
-//			}
-//		},
-//		error : function(xhr, status, er) {
-//			if(error){
-//				error(er);
-//			}
-//		}
-//	  });
-//	}
-	
-	
-	
 	return {
 		addLevy : addLevy,
 		listLevy : listLevy,
+		householdInfo : householdInfo,
+		levyInfo : levyInfo,
+		addFee : addFee,
 		listDong : listDong,
 		listFeeReg : listFeeReg,
-		getUnitPrice :  getUnitPrice,
-		updateUnitPrice : updateUnitPrice,
-		findUnitPriceSeq : findUnitPriceSeq,
-		addMeter : addMeter,
-		updateMeter : updateMeter
+		updateFee : updateFee
 	};
 })();

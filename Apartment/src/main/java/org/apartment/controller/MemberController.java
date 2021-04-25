@@ -8,7 +8,7 @@ import lombok.extern.log4j.Log4j;
 
 @Controller
 @Log4j
-@RequestMapping("/tenant1/*")
+@RequestMapping("/tenant/*")
 public class MemberController {
 	
 	@GetMapping("/user")

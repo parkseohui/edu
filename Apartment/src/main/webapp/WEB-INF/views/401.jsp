@@ -8,7 +8,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Aptogether - 승인 필요</title>
+        <title>Apartment - 승인 필요</title>
         <link href="/resources/css/styles.css" rel="stylesheet" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
     </head>
@@ -35,9 +35,9 @@
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid">
                         <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">KOSTA 197기 3기</div>
+                            <div class="text-muted"></div>
                             <div>
-                                <a>김기찬 이철민 양현수 박서희 사현정 장성권</a>
+                                <a>박서희</a>
                             </div>
                         </div>
                     </div>
